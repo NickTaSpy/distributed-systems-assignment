@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,34 +9,17 @@
 <title>Σύστημα διαχείρισης συγγραμμάτων</title>
 </head>
 <body>
-	<form action="loginForm" method="POST">
+	<form:form action="${pageContext.request.contextPath}/loginForm"
+		method="POST">
 		<fieldset>
 			<legend>Σύνδεση</legend>
-			Email:<br> <input type="text" name="email"><br>
+			Email:<br> <input type="text" name="username"><br>
 			Password:<br> <input type="password" name="password"><br>
-			<br> <input type="submit" value="Submit">
+			<br> <input type="submit" value="Είσοδος"><br>
+			<c:if test="${param.error != null}">
+				<i style="color:red">Λάθος username ή password.</i>
+			</c:if>
 		</fieldset>
-	</form>
-	<div id="container">
-		<div id="content">
-			<!--  add our html table here -->
-			<table>
-				<tr>
-					<th>First Name</th>
-					<th>Last Name</th>
-					<th>Email</th>
-				</tr>
-				<!-- loop over and print our customers -->
-				<c:forEach var="tempUser" items="${users}">
-
-					<tr>
-						<td>${tempUser.firstName}</td>
-						<td>${tempUser.lastName}</td>
-						<td>${tempUser.email}</td>
-					</tr>
-				</c:forEach>
-			</table>
-		</div>
-	</div>
+	</form:form>
 </body>
 </html>
