@@ -8,16 +8,6 @@
 <title>Σύστημα διαχείρισης συγγραμμάτων</title>
 </head>
 <body>
-	<table>
-		<tr>
-			<th>Όνομα υπηρεσίας</th>
-		</tr>
-		<!-- loop over and print our customers -->
-		<c:forEach var="service" items="${services}">
-			<tr>
-				<td><a href="${pageContext.request.contextPath}${service.link}">${service.name}</a></td>
-			</tr>
-		</c:forEach>
-	</table>
+	
 </body>
 </html>

@@ -18,7 +18,6 @@ import org.hibernate.annotations.PolymorphismType;
 
 @Entity
 @Table(name = "professor")
-@Polymorphism(type = PolymorphismType.EXPLICIT)
 @PrimaryKeyJoinColumn(name="userid", referencedColumnName="id")
 public class Professor extends User {
 	
@@ -27,7 +26,6 @@ public class Professor extends User {
 	public Department department;
 	
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	@JoinTable(name="professor_books",
-	joinColumns=@JoinColumn(name="professoruserid"))
+	@JoinColumn(name="professoruserid")
 	public List<ProfessorBooks> professorBooks;
 }

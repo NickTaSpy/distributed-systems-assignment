@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
@@ -17,18 +18,49 @@ import org.hibernate.annotations.PolymorphismType;
 
 @Entity
 @Table(name = "publisher")
-@Polymorphism(type = PolymorphismType.EXPLICIT)
 @PrimaryKeyJoinColumn(name="userid", referencedColumnName="id")
 public class Publisher extends User{
 	
 	@Column(name = "directions")
-	public String directions;
+	private String directions;
 	
 	@Column(name = "publisherName")
-	public String publisherName;
+	private String publisherName;
 	
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	@JoinTable(name="publisher_books",
-	joinColumns=@JoinColumn(name="publisheruserid"))
-	public List<PublisherBooks> publisherBooks;
+	@JoinColumn(name="publisheruserid")
+	private List<PublisherBooks> publisherBooks;
+
+	public Publisher() {
+		
+	}
+
+	public String getDirections() {
+		return directions;
+	}
+
+	public void setDirections(String directions) {
+		this.directions = directions;
+	}
+
+	public String getPublisherName() {
+		return publisherName;
+	}
+
+	public void setPublisherName(String publisherName) {
+		this.publisherName = publisherName;
+	}
+
+	public List<PublisherBooks> getPublisherBooks() {
+		return publisherBooks;
+	}
+
+	public void setPublisherBooks(List<PublisherBooks> publisherBooks) {
+		this.publisherBooks = publisherBooks;
+	}
+	
+	@Override
+	public String toString() {
+		return "Publisher [directions=" + directions + ", publisherName=" + publisherName + ", publisherBooks=" + publisherBooks.size() + "]"; 
+	}
 }

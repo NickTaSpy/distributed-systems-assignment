@@ -37,6 +37,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
         .anyRequest().authenticated()
         .antMatchers("/services").hasAnyRole("0,1,2,3,4")
+        .antMatchers("/publisher/**").hasRole("1")
         .and()
         .formLogin().loginPage("/")
         .loginProcessingUrl("/loginForm")

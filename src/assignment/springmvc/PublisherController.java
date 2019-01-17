@@ -14,20 +14,32 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import assignment.dao.ServicesDAO;
+import assignment.entities.Publisher;
 import assignment.entities.Role;
 import assignment.entities.Service;
 
 @Controller
-public class ServiceController {
+public class PublisherController {
 	@Autowired
 	private ServicesDAO servicesDAO;
 	
-	@RequestMapping("/services")
-	public String publisherPage(HttpServletRequest request, Model model) {
+	@RequestMapping("/publisher/bookManagement")
+	public String bookManagement(HttpServletRequest request, Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		List<Service> services = servicesDAO.getServices(userDetails.getAuthorities().iterator().next().getAuthority());
-		model.addAttribute("services", services);
-		return "services";
+		Publisher publisher = (Publisher)servicesDAO.findUser(userDetails.getUsername());
+		return "publisher/bookManagement";
+	}
+	
+	@RequestMapping("/publisher/manageBook")
+	public String manageBook(HttpServletRequest request, Model model) {
+		
+		return "publisher/manageBook";
+	}
+	
+	@RequestMapping("/publisher/updateInstructions")
+	public String updateInstructions(HttpServletRequest request, Model model) {
+		
+		return "publisher/updateInstructions";
 	}
 }
