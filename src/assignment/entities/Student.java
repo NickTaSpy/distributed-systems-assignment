@@ -23,9 +23,31 @@ public class Student extends User {
 	
 	@Enumerated
 	@Column(name = "department")
-	public Department department;
+	private Department department;
 	
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name="studentuserid")
-	public List<StudentBooks> studentBooks;
+	private List<StudentBooks> studentBooks;
+
+	public Student() {
+		
+	}
+	
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
+	public List<StudentBooks> getStudentBooks() {
+		return studentBooks;
+	}
+
+	public void setStudentBooks(List<StudentBooks> studentBooks) {
+		this.studentBooks = studentBooks;
+	}
+	
+	
 }

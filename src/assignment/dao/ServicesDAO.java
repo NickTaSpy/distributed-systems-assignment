@@ -12,4 +12,8 @@ public interface ServicesDAO {
 	public User findUser(String email, String password);
 	public User findUser(String email);
 	public List<Service> getServices(String role);
+	public Publisher getPublisher();
+	public void deletePublisherBook(int id);
+	public void updatePublisherBook(int id, int booksAvailable);
+	public void addPublisherBook(String name, String author, int booksAvailable);
 }

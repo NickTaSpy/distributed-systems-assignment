@@ -16,5 +16,17 @@ import org.hibernate.annotations.PolymorphismType;
 public class Secretariat extends User{
 	@Enumerated
 	@Column(name = "department")
-	public Department department;
+	private Department department;
+
+	public Secretariat() {
+		
+	}
+	
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
 }

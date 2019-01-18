@@ -15,26 +15,33 @@ public class User {
 
 	@Id
 	@Column(name = "id")
-	public int id;
+	private int id;
 
 	@Column(name = "firstname")
-	public String firstName;
+	private String firstName;
 
 	@Column(name = "lastname")
-	public String lastName;
+	private String lastName;
 
 	@Column(name = "email")
-	public String email;
+	private String email;
 	
 	@Column(name = "password")
-	public String password;
+	private String password;
 	
 	@Column(name = "phone")
-	public String phone;
+	private String phone;
 	
 	@Enumerated
 	@Column(name = "role")
-	public Role role;
+	private Role role;
+	
+	@Column(name = "enabled")
+	private boolean enabled;
+	
+	public User() {
+		
+	}
 
 	public int getId() {
 		return id;
@@ -92,8 +99,16 @@ public class User {
 		this.role = role;
 	}
 	
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password=" + password + ", phone=" + phone + ", role=" + role + "]";
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password=" + password + ", phone=" + phone + ", role=" + role + ", enabled=" + enabled + "]";
 	}
 }

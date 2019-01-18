@@ -1,0 +1,11 @@
+@charset "UTF-8";
+#bookTable{
+	border-collapse: collapse;
+}
+
+.div{
+	color: red;
+	padding: 3px;
+	border: 2;
+	border-collapse: collapse;
+}

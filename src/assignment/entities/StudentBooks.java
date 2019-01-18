@@ -10,11 +10,39 @@ import javax.persistence.Table;
 public class StudentBooks {
 	@Id
 	@Column(name = "studentuserid")
-	public int studentUserId;
+	private int studentUserId;
 	
-	@Column(name = "booksselected")
-	public int bookSelected;
+	@Column(name = "bookselected")
+	private int bookSelected;
 	
-	@Column(name = "booksreceived")
-	public boolean bookReceived;
+	@Column(name = "bookreceived")
+	private boolean bookReceived;
+	
+	public StudentBooks() {
+		
+	}
+
+	public int getStudentUserId() {
+		return studentUserId;
+	}
+
+	public void setStudentUserId(int studentUserId) {
+		this.studentUserId = studentUserId;
+	}
+
+	public int getBookSelected() {
+		return bookSelected;
+	}
+
+	public void setBookSelected(int bookSelected) {
+		this.bookSelected = bookSelected;
+	}
+
+	public boolean isBookReceived() {
+		return bookReceived;
+	}
+
+	public void setBookReceived(boolean bookReceived) {
+		this.bookReceived = bookReceived;
+	}
 }

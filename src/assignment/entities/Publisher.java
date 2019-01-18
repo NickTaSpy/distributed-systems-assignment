@@ -27,7 +27,7 @@ public class Publisher extends User{
 	@Column(name = "publisherName")
 	private String publisherName;
 	
-	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="publisheruserid")
 	private List<PublisherBooks> publisherBooks;
 
@@ -61,6 +61,6 @@ public class Publisher extends User{
 	
 	@Override
 	public String toString() {
-		return "Publisher [directions=" + directions + ", publisherName=" + publisherName + ", publisherBooks=" + publisherBooks.size() + "]"; 
+		return "Publisher [directions=" + directions + ", publisherName=" + publisherName + ", publisherBooks=" + publisherBooks + "]"; 
 	}
 }
