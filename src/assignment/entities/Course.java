@@ -8,21 +8,21 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "book")
-public class Book {
+@Table(name = "course")
+public class Course {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 	
+	@Column(name = "userid")
+	private int userId;
+	
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "author")
-	private String author;
-	
-	public Book() {
+	public Course() {
 		
 	}
 
@@ -34,19 +34,19 @@ public class Book {
 		this.id = id;
 	}
 
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
 	}
 }

@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import assignment.entities.Book;
+import assignment.entities.Professor;
 import assignment.entities.Publisher;
 import assignment.entities.PublisherBooks;
 import assignment.entities.Role;
@@ -76,6 +77,14 @@ public class ServicesDAOImpl implements ServicesDAO {
     
     @Override
     @Transactional
+    public Professor getProfessor() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return (Professor)findUser(userDetails.getUsername());
+    }
+    
+    @Override
+    @Transactional
     public void deletePublisherBook(int id) {
     	Session session = sessionFactory.getCurrentSession();
     	session.createQuery("delete from PublisherBooks PB where PB.bookId='" + id + "'").executeUpdate();
@@ -104,5 +113,28 @@ public class ServicesDAOImpl implements ServicesDAO {
     	publisherBook.setBooksAvailable(booksAvailable);
     	publisherBook.setPublisherUserId(getPublisher().getId());
     	session.save(publisherBook);
+    }
+    
+    @Override
+    @Transactional
+    public void updatePublisherDirections(int id, String directions) {
+    	Session session = sessionFactory.getCurrentSession();
+    	session.createQuery("update Publisher P set P.directions='" + directions + "' where P.id='" + id + "'").executeUpdate();
+    }
+    
+    @Override
+    @Transactional
+    public void confirmDelivery(int bookId, String studentEmail) {
+    	Session session = sessionFactory.getCurrentSession();
+    	User user = findUser(studentEmail);
+    	session.createQuery("update StudentBooks SB set SB.bookReceived='1' where SB.bookSelected='" + bookId + "' and SB.studentUserId='" + user.getId() + "'").executeUpdate();
+    	session.createQuery("update PublisherBooks PB set PB.booksAvailable=PB.booksAvailable - 1 where PB.bookId='" + bookId + "'").executeUpdate();
+    }
+    
+    @Override
+    @Transactional
+    public List<Publisher> getAllBooks() {
+    	Session session = sessionFactory.getCurrentSession();
+    	return session.createQuery("from Publisher", Publisher.class).getResultList();
     }
 }

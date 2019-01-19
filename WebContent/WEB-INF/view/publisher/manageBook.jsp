@@ -41,6 +41,12 @@
 	Διαθέσιμα Βιβλία<br><input name="booksAvailable" type="text" value=""/><br><br>
 	<input type="submit" value="ΠΡΟΣΘΗΚΗ"/>
 </form>
+
+<h3>Ενημέρωση οδηγιών για το σημείο παράδοσης των βιβλίων</h3>
+<form action="${pageContext.request.contextPath}/publisher/manageBook/updateDirections/" method="GET">
+	<input name="directions" type="text" value="${currentDirections}"/><br><br>
+	<input type="submit" value="ΕΝΗΜΕΡΩΣΗ"/>
+</form>
 	
 </body>
 </html>

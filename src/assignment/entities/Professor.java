@@ -1,6 +1,7 @@
 package assignment.entities;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -29,6 +30,10 @@ public class Professor extends User {
 	@JoinColumn(name="professoruserid")
 	private List<ProfessorBooks> professorBooks;
 	
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@JoinColumn(name="userid")
+	private Set<Course> professorCourses;
+	
 	public Professor() {
 		
 	}
@@ -48,6 +53,12 @@ public class Professor extends User {
 	public void setProfessorBooks(List<ProfessorBooks> professorBooks) {
 		this.professorBooks = professorBooks;
 	}
-	
-	
+
+	public Set<Course> getProfessorCourses() {
+		return professorCourses;
+	}
+
+	public void setProfessorCourses(Set<Course> professorCourses) {
+		this.professorCourses = professorCourses;
+	}
 }

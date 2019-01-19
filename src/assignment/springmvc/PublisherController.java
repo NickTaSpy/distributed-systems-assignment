@@ -23,23 +23,12 @@ public class PublisherController {
 	@Autowired
 	private ServicesDAO servicesDAO;
 	
-	@RequestMapping("/publisher/bookManagement")
-	public String bookManagement(HttpServletRequest request, Model model) {
-		
-		return "publisher/bookManagement";
-	}
-	
 	@RequestMapping("/publisher/manageBook")
 	public String manageBook(HttpServletRequest request, Model model) {
 		Publisher publisher = servicesDAO.getPublisher();
 		model.addAttribute("books", publisher.getPublisherBooks());
+		model.addAttribute("currentDirections", publisher.getDirections());
 		return "publisher/manageBook";
-	}
-	
-	@RequestMapping("/publisher/updateInstructions")
-	public String updateInstructions(HttpServletRequest request, Model model) {
-		
-		return "publisher/updateInstructions";
 	}
 	
 	@RequestMapping("/publisher/manageBook/delete/{id}")
@@ -58,5 +47,24 @@ public class PublisherController {
 	public String addBook(HttpServletRequest request, Model model) {
 		servicesDAO.addPublisherBook(request.getParameter("bookName"), request.getParameter("bookAuthor"), Integer.parseInt(request.getParameter("booksAvailable")));
 		return "redirect:/publisher/manageBook";
+	}
+	
+	@RequestMapping("/publisher/manageBook/updateDirections/")
+	public String updateDirections(HttpServletRequest request, Model model) {
+		servicesDAO.updatePublisherDirections(servicesDAO.getPublisher().getId(), request.getParameter("directions"));
+		return "redirect:/publisher/manageBook";
+	}
+	
+	@RequestMapping("/publisher/deliveryConfirmation")
+	public String deliveryConfirmation(HttpServletRequest request, Model model) {
+		Publisher publisher = servicesDAO.getPublisher();
+		model.addAttribute("books", publisher.getPublisherBooks());
+		return "publisher/deliveryConfirmation";
+	}
+	
+	@RequestMapping("/publisher/deliveryConfirmation/confirm/")
+	public String deliveryConfirm(HttpServletRequest request, Model model) {
+		servicesDAO.confirmDelivery(Integer.parseInt(request.getParameter("bookId")), request.getParameter("email"));
+		return "redirect:/publisher/deliveryConfirmation";
 	}
 }
