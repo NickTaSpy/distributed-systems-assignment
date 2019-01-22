@@ -2,6 +2,8 @@ package assignment.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -9,8 +11,12 @@ import javax.persistence.Table;
 @Table(name = "professor_books")
 public class ProfessorBooks {
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "id")
+	private int id;
+	
 	@Column(name = "professoruserid")
-	private int publisherUserId;
+	private int professorUserId;
 	
 	@Column(name = "course")
 	private String course;
@@ -21,13 +27,20 @@ public class ProfessorBooks {
 	public ProfessorBooks() {
 		
 	}
-
-	public int getPublisherUserId() {
-		return publisherUserId;
+	public int getId() {
+		return id;
 	}
 
-	public void setPublisherUserId(int publisherUserId) {
-		this.publisherUserId = publisherUserId;
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getProfessorUserId() {
+		return professorUserId;
+	}
+
+	public void setProfessorUserId(int professorUserId) {
+		this.professorUserId = professorUserId;
 	}
 
 	public String getCourse() {

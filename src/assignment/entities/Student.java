@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -21,7 +22,7 @@ import org.hibernate.annotations.PolymorphismType;
 @PrimaryKeyJoinColumn(name="userid", referencedColumnName="id")
 public class Student extends User {
 	
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	@Column(name = "department")
 	private Department department;
 	

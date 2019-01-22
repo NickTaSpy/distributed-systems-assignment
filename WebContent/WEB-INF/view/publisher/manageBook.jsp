@@ -6,14 +6,12 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<spring:url value="/resources/publisher/script.js" var="mainJs" />
-	<spring:url value="/resources/publisher/style.css" var="mainCss" />
-	<link href="${mainCss}" rel="stylesheet" />
+	<link href="<c:url value="/resources/theme/style.css" />" rel="stylesheet">
 	<title>Σύστημα διαχείρισης συγγραμμάτων</title>
 </head>
 <body>
 <h3>Συγγράμματα</h3>
-<table border="1" id="bookTable">
+<table id="bookTable">
 	<tr>
 		<th>id</th>
 		<th>Τίτλος</th>

@@ -37,18 +37,15 @@ public class ProfessorController {
 	
 	@RequestMapping("/professor/bookSelection/select/{courseName}")
 	public String bookSelection(HttpServletRequest request, Model model, @PathVariable("courseName") String courseName) {
-		System.out.print(courseName);
 		model.addAttribute("courseName", courseName);
 		model.addAttribute("publishers", servicesDAO.getAllBooks());
 		return "/professor/bookSelection2";
 	}
 	
-	@RequestMapping("/professor/bookSelection/select/booksSelected/books")
-	public String bookSelection(HttpServletRequest request, Model model, @RequestParam MultiValueMap<String, String> allRequestParams) {
+	@RequestMapping("/professor/bookSelection/select/{courseName}/books")
+	public String bookSelection(HttpServletRequest request, Model model, @PathVariable("courseName") String courseName, @RequestParam MultiValueMap<String, String> allRequestParams) {
 		List<String> books = allRequestParams.get("book");
-		System.out.print(books.get(0));
-		System.out.print(books.get(1));
-		model.addAttribute("message", "Τα βιβλία επιλέχθηκαν επιτυχώς");
+		servicesDAO.updateProfessorBooks(courseName, Integer.parseInt(books.get(0)), Integer.parseInt(books.get(1)));
 		return "redirect:/professor/bookSelection";
 	}
 }

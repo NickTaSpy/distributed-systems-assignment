@@ -15,7 +15,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import assignment.entities.Book;
+import assignment.entities.Department;
 import assignment.entities.Professor;
+import assignment.entities.ProfessorBooks;
 import assignment.entities.Publisher;
 import assignment.entities.PublisherBooks;
 import assignment.entities.Role;
@@ -57,6 +59,22 @@ public class ServicesDAOImpl implements ServicesDAO {
         Session session = sessionFactory.getCurrentSession();
         Query<User> query = session.createQuery("from User U where U.email='" + email + "'", User.class);
         return query.getSingleResult();
+    }
+    
+    @Override
+    @Transactional
+    public User findUser(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<User> query = session.createQuery("from User U where U.id='" + id + "'", User.class);
+        return query.getSingleResult();
+    }
+    
+    @Override
+    @Transactional
+    public Role findUserRole(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<User> query = session.createQuery("from User U where U.id='" + id + "'", User.class);
+        return query.getSingleResult().getRole();
     }
     
     @Override
@@ -136,5 +154,89 @@ public class ServicesDAOImpl implements ServicesDAO {
     public List<Publisher> getAllBooks() {
     	Session session = sessionFactory.getCurrentSession();
     	return session.createQuery("from Publisher", Publisher.class).getResultList();
+    }
+    
+    @Override
+    @Transactional
+    public void updateProfessorBooks(String courseName, int bookId1, int bookId2) {
+    	Session session = sessionFactory.getCurrentSession();
+    	session.createQuery("delete from ProfessorBooks PB where PB.courseName='" + courseName + "'").executeUpdate();
+    	ProfessorBooks professorBooks = new ProfessorBooks();
+    	professorBooks.setBook(bookId1);
+    	professorBooks.setCourse(courseName);
+    	professorBooks.setProfessorUserId(getProfessor().getId());
+    	session.save(professorBooks);
+    	professorBooks = new ProfessorBooks();
+    	professorBooks.setBook(bookId2);
+    	professorBooks.setCourse(courseName);
+    	professorBooks.setProfessorUserId(getProfessor().getId());
+    	session.save(professorBooks);
+    }
+    
+    @Override
+    @Transactional
+    public void deleteUser(int userId) {
+    	Session session = sessionFactory.getCurrentSession();
+    	Role role = findUserRole(userId);
+    	switch (role) {
+	    	case admin:
+	    		return;
+	    	case professor:
+	    		session.createQuery("delete from Professor P where P.id='" + userId +"'").executeUpdate();
+	    		session.createQuery("delete from ProfessorBooks PB where PB.professorUserId='" + userId +"'").executeUpdate();
+	    		break;
+	    	case publisher:
+	    		session.createQuery("delete from Publisher P where P.id='" + userId +"'").executeUpdate();
+	    		session.createQuery("delete from PublisherBooks PB where PB.publisherUserId='" + userId +"'").executeUpdate();
+	    		break;
+	    	case secretariat:
+	    		session.createQuery("delete from Secretariat S where S.id='" + userId +"'").executeUpdate();
+	    		break;
+	    	case student:
+	    		session.createQuery("delete from Student S where S.id='" + userId +"'").executeUpdate();
+	    		session.createQuery("delete from StudentBooks SB where SB.studentUserId='" + userId +"'").executeUpdate();
+	    		break;
+    	}
+    	session.createQuery("delete from User U where U.id='" + userId +"'").executeUpdate();
+    }
+    
+    @Override
+    @Transactional
+    public void updateUser(int id, String firstName, String lastName, String email, String phone) {
+    	Session session = sessionFactory.getCurrentSession();
+    	User user = findUser(id);
+    	user.setFirstName(firstName);
+    	user.setLastName(lastName);
+    	user.setEmail(email);
+    	user.setPhone(phone);
+    	session.update(user);
+    }
+    
+    @Override
+    @Transactional
+    public void updateProfessor(int id, Department department) {
+    	Session session = sessionFactory.getCurrentSession();
+    	session.createQuery("update Professor P set P.department='" + department + "' where P.id='" + id + "'").executeUpdate();
+    }
+    
+    @Override
+    @Transactional
+    public void updatePublisher(int id, String publisherName) {
+    	Session session = sessionFactory.getCurrentSession();
+    	session.createQuery("update Publisher P set P.publisherName='" + publisherName + "' where P.id='" + id + "'").executeUpdate();
+    }
+    
+    @Override
+    @Transactional
+    public void updateStudent(int id, Department department) {
+    	Session session = sessionFactory.getCurrentSession();
+    	session.createQuery("update Student S set S.department='" + department + "' where S.id='" + id + "'").executeUpdate();
+    }
+    
+    @Override
+    @Transactional
+    public void updateSecretariat(int id, Department department) {
+    	Session session = sessionFactory.getCurrentSession();
+    	session.createQuery("update Secretariat S set S.department='" + department + "' where S.id='" + id + "'").executeUpdate();
     }
 }

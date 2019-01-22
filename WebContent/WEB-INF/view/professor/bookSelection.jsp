@@ -7,10 +7,11 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Σύστημα διαχείρισης συγγραμμάτων</title>
+	<link href="<c:url value="/resources/theme/style.css" />" rel="stylesheet">
 </head>
 <body>
 <h3>Μαθήματα</h3>
-<table border="1" id="coursesTable">
+<table id="coursesTable">
 	<tr>
 		<th>Μάθημα</th>
 		<th></th>
@@ -22,6 +23,5 @@
 		</tr>
 	</c:forEach>
 </table>
-<br><h3>${message}</h3>
 </body>
 </html>

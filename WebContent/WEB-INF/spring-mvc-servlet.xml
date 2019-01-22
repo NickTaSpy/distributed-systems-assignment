@@ -29,7 +29,7 @@
 	</bean>
 	
 	<!-- Resources -->
-	<mvc:resources mapping="/resources/**" location="/resources/publisher"  
+	<mvc:resources mapping="/resources/**" location="/resources/theme"  
 	cache-period="31556926"/>
 
 	<!-- Step 1: Define Database DataSource / connection pool -->

@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Σύστημα διαχείρισης συγγραμμάτων</title>
+<link href="<c:url value="/resources/theme/style.css" />" rel="stylesheet">
 </head>
 <body>
 	<table>

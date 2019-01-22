@@ -1,1 +1,0 @@
-table = document.findElementById("bookTable");

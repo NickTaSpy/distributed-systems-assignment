@@ -6,11 +6,12 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<link href="<c:url value="/resources/theme/style.css" />" rel="stylesheet">
 	<title>Σύστημα διαχείρισης συγγραμμάτων</title>
 </head>
 <body>
 <h3>Συγγράμματα</h3>
-<table border="1" id="bookTable">
+<table id="bookTable">
 	<tr>
 		<th>id</th>
 		<th>Τίτλος</th>
@@ -28,7 +29,7 @@
 </table><br><br>
 <h3>Επιβεβαίωση παραλαβής συγγράμματος</h3>
 <form action="${pageContext.request.contextPath}/publisher/deliveryConfirmation/confirm/" method="GET">
-<table border="1" id="bookTable">
+<table id="bookTable">
 	<tr>
 		<th>id βιβλίου</th>
 		<th>email φοιτητή</th>

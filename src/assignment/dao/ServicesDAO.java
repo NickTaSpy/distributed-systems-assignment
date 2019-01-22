@@ -3,6 +3,7 @@ package assignment.dao;
 import java.util.List;
 
 import assignment.entities.Book;
+import assignment.entities.Department;
 import assignment.entities.Professor;
 import assignment.entities.Publisher;
 import assignment.entities.PublisherBooks;
@@ -23,4 +24,13 @@ public interface ServicesDAO {
 	public void updatePublisherDirections(int id, String directions);
 	public void confirmDelivery(int bookId, String studentEmail);
 	public List<Publisher> getAllBooks();
+	public void updateProfessorBooks(String courseName, int bookId1, int bookId2);
+	public void deleteUser(int userId);
+	public Role findUserRole(int id);
+	public User findUser(int id);
+	public void updateUser(int id, String firstName, String lastName, String email, String phone);
+	public void updateProfessor(int id, Department department);
+	public void updatePublisher(int id, String publisherName);
+	public void updateStudent(int id, Department department);
+	public void updateSecretariat(int id, Department department);
 }

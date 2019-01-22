@@ -36,8 +36,11 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
         .anyRequest().authenticated()
-        .antMatchers("/services").hasAnyRole("0,1,2,3,4")
+        .antMatchers("/services").hasAnyRole("0,1,2,4")
         .antMatchers("/publisher/**").hasRole("1")
+        .antMatchers("/professor/**").hasRole("0")
+        .antMatchers("/secretariat/**").hasRole("2")
+        .antMatchers("/admin/**").hasRole("4")
         .and()
         .formLogin().loginPage("/")
         .loginProcessingUrl("/loginForm")
