@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -21,7 +20,9 @@ import assignment.entities.ProfessorBooks;
 import assignment.entities.Publisher;
 import assignment.entities.PublisherBooks;
 import assignment.entities.Role;
+import assignment.entities.Secretariat;
 import assignment.entities.Service;
+import assignment.entities.Student;
 import assignment.entities.User;
 
 @Repository
@@ -238,5 +239,36 @@ public class ServicesDAOImpl implements ServicesDAO {
     public void updateSecretariat(int id, Department department) {
     	Session session = sessionFactory.getCurrentSession();
     	session.createQuery("update Secretariat S set S.department='" + department + "' where S.id='" + id + "'").executeUpdate();
+    }
+    
+    @Override
+    @Transactional
+    public void addUser(User user, String roleParam) {
+    	Session session = sessionFactory.getCurrentSession();
+    	//session.save(user);
+    	switch (user.getRole()) {
+	    	case professor:
+	    		Professor professor = (Professor)user;
+	    		professor.setDepartment(Department.valueOf(roleParam));
+	    		session.save(professor);
+	    		break;
+	    	case secretariat:
+	    		Secretariat secretariat = (Secretariat)user;
+	    		secretariat.setDepartment(Department.valueOf(roleParam));
+	    		session.save(secretariat);
+	    		break;
+	    	case student:
+	    		Student student = (Student)user;
+	    		student.setDepartment(Department.valueOf(roleParam));
+	    		session.save(student);
+	    		break;
+	    	case publisher:
+	    		Publisher publisher = (Publisher)user;
+	    		publisher.setPublisherName(roleParam);
+	    		session.save(publisher);
+	    		break;
+	    	case admin:
+	    		break;
+    	}
     }
 }

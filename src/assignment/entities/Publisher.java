@@ -6,15 +6,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Polymorphism;
-import org.hibernate.annotations.PolymorphismType;
 
 @Entity
 @Table(name = "publisher")

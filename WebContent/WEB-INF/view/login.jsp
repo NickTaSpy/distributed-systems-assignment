@@ -10,8 +10,7 @@
 <link href="<c:url value="/resources/theme/style.css" />" rel="stylesheet">
 </head>
 <body>
-	<form:form action="${pageContext.request.contextPath}/loginForm"
-		method="POST">
+	<form:form action="${pageContext.request.contextPath}/loginForm" method="POST">
 		<fieldset>
 			<legend>Σύνδεση</legend>
 			Email:<br> <input type="text" name="username"><br>

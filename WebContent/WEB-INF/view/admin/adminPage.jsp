@@ -6,10 +6,65 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link href="<c:url value="/resources/theme/style.css" />" rel="stylesheet">
+	<link href="<c:url value="/resources/theme/style.css" />" rel="stylesheet">	
+	<script type="text/javascript">
+		function onRoleChange() {
+			var roleSelection = document.getElementById("roleSelection");
+			var role = roleSelection.options[roleSelection.selectedIndex].value;
+			console.log("test");
+			if (role == 1){
+				document.getElementById("roleColumn").innerHTML = "Όνομα Εκδότη";
+				console.log("123");
+			}else{
+				document.getElementById("roleColumn").innerHTML = "Τμήμα";
+			}
+		}
+	</script>
 	<title>Σύστημα διαχείρισης χρηστών</title>
 </head>
 <body>
+
+<h3>Προσθήκη Χρήστη</h3>
+<form action="${pageContext.request.contextPath}/admin/add/" method="GET">
+<table id="userTable3">
+	<tr>
+		<th>Όνομα</th>
+		<th>Επώνυμο</th>
+		<th>Email</th>
+		<th>Password</th>
+		<th>Τηλέφωνο</th>
+		<th>Ρόλος</th>
+		<th id="roleColumn"></th>
+	</tr>
+	<tr>
+		<td><input name="firstName" type="text"/></td>
+		<td><input name="lastName" type="text"/></td>
+		<td><input name="email" type="text"/></td>
+		<td><input name="password" type="text"/></td>
+		<td><input name="phone" type="text"/></td>
+		<td>
+			<select id="roleSelection" name="role" onchange="onRoleChange()">
+				<option value="0">Καθηγητής</option>
+				<option value="1">Εκδότης</option>
+				<option value="2">Γραμματέας</option>
+				<option value="3">Φοιτητής</option>
+			</select>
+		</td>
+		<td><input name="roleColumn" type="text"/></td>
+		<td><button type="submit">ΠΡΟΣΘΗΚΗ</button></td>
+	</tr>
+</table><br>
+</form>
+<script type="text/javascript">onRoleChange();</script>
+	<table align="right">
+		<tr>
+			<th>Τμήματα</th>
+		</tr>
+		<tr><td>πληροφορική_και_τηλεματική</td></tr>
+		<tr><td>οικιακής_οικονομίας</td></tr>
+		<tr><td>γεωγραφίας</td></tr>
+		<tr><td>διαιτολογίας</td></tr>
+	</table>
 <h3>Χρήστες Συστήματος</h3>
 <table id="userTable">
 	<tr>
@@ -87,16 +142,6 @@
 	</table><br>
 	<button type="submit">ΕΝΗΜΕΡΩΣΗ</button>
 </form><br>
-<c:if test="${showDepartments==true}">
-	<table>
-		<tr>
-			<th>Τμήματα</th>
-		</tr>
-		<tr><td>πληροφορική_και_τηλεματική</td></tr>
-		<tr><td>οικιακής_οικονομίας</td></tr>
-		<tr><td>γεωγραφίας</td></tr>
-		<tr><td>διαιτολογίας</td></tr>
-	</table>
-</c:if>
+
 </body>
 </html>

@@ -3,16 +3,17 @@ package assignment.springmvc;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import assignment.dao.ServicesDAO;
 import assignment.entities.Department;
 import assignment.entities.Professor;
 import assignment.entities.Publisher;
+import assignment.entities.Role;
 import assignment.entities.Secretariat;
 import assignment.entities.Student;
 import assignment.entities.User;
@@ -26,6 +27,36 @@ public class AdminController {
 	public String adminPage(HttpServletRequest request, Model model) {
 		model.addAttribute("users", servicesDAO.getUsers());
 		return "admin/adminPage";
+	}
+	
+	@RequestMapping("/admin/add")
+	public String addUser(HttpServletRequest request, Model model) {
+		Role role = Role.values()[Integer.parseInt(request.getParameter("role"))];
+		User user;
+    	switch (role) {
+	    	case professor:
+	    		user = new Professor();
+	    		break;
+	    	case secretariat:
+	    		user = new Secretariat();
+	    		break;
+	    	case student:
+	    		user = new Student();
+	    		break;
+	    	case publisher:
+	    		user = new Publisher();
+	    		break;
+    		default:
+    			return "redirect:/admin";
+		}
+		user.setFirstName(request.getParameter("firstName"));
+		user.setLastName(request.getParameter("lastName"));
+		user.setEmail(request.getParameter("email"));
+		user.setPassword(new BCryptPasswordEncoder().encode(request.getParameter("password")));
+		user.setPhone(request.getParameter("phone"));
+		user.setRole(role);
+		servicesDAO.addUser(user, request.getParameter("roleColumn"));
+		return "redirect:/admin";
 	}
 	
 	@RequestMapping("/admin/update/{id}")

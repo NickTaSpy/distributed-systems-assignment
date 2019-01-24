@@ -1,6 +1,5 @@
 package assignment.springmvc;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import assignment.dao.ServicesDAO;
-import assignment.entities.Role;
 import assignment.entities.Service;
 
 @Controller
