@@ -16,25 +16,26 @@ import assignment.dao.ServicesDAO;
 import assignment.entities.Professor;
 
 @Controller
+@RequestMapping("/professor")
 public class ProfessorController {
 	@Autowired
 	private ServicesDAO servicesDAO;
 	
-	@RequestMapping("/professor/bookSelection")
+	@RequestMapping("bookSelection")
 	public String bookSelection(HttpServletRequest request, Model model) {
 		Professor professor = servicesDAO.getProfessor();
 		model.addAttribute("courses", professor.getProfessorCourses());
 		return "professor/bookSelection";
 	}
 	
-	@RequestMapping("/professor/bookSelection/select/{courseName}")
+	@RequestMapping("bookSelection/select/{courseName}")
 	public String bookSelection(HttpServletRequest request, Model model, @PathVariable("courseName") String courseName) {
 		model.addAttribute("courseName", courseName);
 		model.addAttribute("publishers", servicesDAO.getAllBooks());
 		return "/professor/bookSelection2";
 	}
 	
-	@RequestMapping("/professor/bookSelection/select/{courseName}/books")
+	@RequestMapping("bookSelection/select/{courseName}/books")
 	public String bookSelection(HttpServletRequest request, Model model, @PathVariable("courseName") String courseName, @RequestParam MultiValueMap<String, String> allRequestParams) {
 		List<String> books = allRequestParams.get("book");
 		servicesDAO.updateProfessorBooks(courseName, Integer.parseInt(books.get(0)), Integer.parseInt(books.get(1)));

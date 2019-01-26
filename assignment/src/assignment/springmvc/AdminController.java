@@ -19,17 +19,18 @@ import assignment.entities.Student;
 import assignment.entities.User;
 
 @Controller
+@RequestMapping("/admin")
 public class AdminController {
 	@Autowired
 	private ServicesDAO servicesDAO;
 	
-	@RequestMapping("/admin")
+	@RequestMapping("")
 	public String adminPage(HttpServletRequest request, Model model) {
 		model.addAttribute("users", servicesDAO.getUsers());
 		return "admin/adminPage";
 	}
 	
-	@RequestMapping("/admin/add")
+	@RequestMapping("add")
 	public String addUser(HttpServletRequest request, Model model) {
 		Role role = Role.values()[Integer.parseInt(request.getParameter("role"))];
 		User user;
@@ -59,7 +60,7 @@ public class AdminController {
 		return "redirect:/admin";
 	}
 	
-	@RequestMapping("/admin/update/{id}")
+	@RequestMapping("update/{id}")
 	public String updateUser(HttpServletRequest request, Model model, @PathVariable("id") int id) {
 		User user = servicesDAO.findUser(id);
 		model.addAttribute("users", servicesDAO.getUsers());
@@ -83,7 +84,7 @@ public class AdminController {
 		return "admin/adminPage";
 	}
 	
-	@RequestMapping("/admin/update/{userId}/finalUpdate/")
+	@RequestMapping("update/{userId}/finalUpdate/")
 	public String updateUserFinal(HttpServletRequest request, Model model, @PathVariable("userId") int id) {
 		
 		servicesDAO.updateUser(id, request.getParameter("firstName"), request.getParameter("lastName"), request.getParameter("email"), request.getParameter("phone"));
@@ -107,7 +108,7 @@ public class AdminController {
 		return "redirect:/admin";
 	}
 	
-	@RequestMapping("/admin/delete/{userId}")
+	@RequestMapping("delete/{userId}")
 	public String deleteUser(HttpServletRequest request, Model model, @PathVariable("userId") int userId) {
 		servicesDAO.deleteUser(userId);
 		return "redirect:/admin";
