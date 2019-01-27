@@ -104,6 +104,14 @@ public class ServicesDAOImpl implements ServicesDAO {
     
     @Override
     @Transactional
+    public Student getStudent() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return (Student)findUser(userDetails.getUsername());
+    }
+    
+    @Override
+    @Transactional
     public void deletePublisherBook(int id) {
     	Session session = sessionFactory.getCurrentSession();
     	session.createQuery("delete from PublisherBooks PB where PB.bookId='" + id + "'").executeUpdate();

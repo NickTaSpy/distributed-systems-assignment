@@ -7,6 +7,7 @@ import assignment.entities.Professor;
 import assignment.entities.Publisher;
 import assignment.entities.Role;
 import assignment.entities.Service;
+import assignment.entities.Student;
 import assignment.entities.User;
 
 public interface ServicesDAO {
@@ -32,4 +33,5 @@ public interface ServicesDAO {
 	public void updateStudent(int id, Department department);
 	public void updateSecretariat(int id, Department department);
 	public void addUser(User user, String roleParam);
+	public Student getStudent();
 }

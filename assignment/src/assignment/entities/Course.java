@@ -22,8 +22,19 @@ public class Course {
 	@Column(name = "name")
 	private String name;
 	
+	@Column(name = "semester")
+	private int semester;
+	
 	public Course() {
 		
+	}
+
+	public int getSemester() {
+		return semester;
+	}
+
+	public void setSemester(int semester) {
+		this.semester = semester;
 	}
 
 	public int getId() {

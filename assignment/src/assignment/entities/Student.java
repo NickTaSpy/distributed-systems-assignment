@@ -1,6 +1,7 @@
 package assignment.entities;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,9 +23,9 @@ public class Student extends User {
 	@Column(name = "department")
 	private Department department;
 	
-	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="studentuserid")
-	private List<StudentBooks> studentBooks;
+	private Set<StudentBooks> studentBooks;
 
 	public Student() {
 		
@@ -38,11 +39,11 @@ public class Student extends User {
 		this.department = department;
 	}
 
-	public List<StudentBooks> getStudentBooks() {
+	public Set<StudentBooks> getStudentBooks() {
 		return studentBooks;
 	}
 
-	public void setStudentBooks(List<StudentBooks> studentBooks) {
+	public void setStudentBooks(Set<StudentBooks> studentBooks) {
 		this.studentBooks = studentBooks;
 	}
 	

@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -15,6 +16,10 @@ public class PublisherBooks {
 	
 	@Column(name = "publisheruserid")
 	private int publisherUserId;
+	
+	@ManyToOne
+	@JoinColumn(name="publisheruserid", referencedColumnName="userid", insertable=false, updatable=false)
+	private Publisher publisher;
 	
 	@OneToOne(optional=true, fetch=FetchType.LAZY)
 	@JoinColumn(name="book", referencedColumnName="id")
@@ -30,6 +35,14 @@ public class PublisherBooks {
 	
 	public PublisherBooks() {
 		
+	}
+
+	public Publisher getPublisher() {
+		return publisher;
+	}
+
+	public void setPublisher(Publisher publisher) {
+		this.publisher = publisher;
 	}
 
 	public int getBookId() {

@@ -42,7 +42,7 @@ public class StudentController {
 	
 	@RequestMapping("/student")
 	public String studentPage(HttpServletRequest request, Model model) {
-		ResponseEntity<String> response = AuthRequest.getResponse((String)session().getAttribute("Authorization"), "http://localhost:8080/assignment/student/hello", HttpMethod.GET, null, String.class);
+		ResponseEntity<String> response = AuthRequest.getResponse((String)session().getAttribute("Authorization"), "http://localhost:8080/assignment/student/books", HttpMethod.GET, null, String.class);
 		if (HasError(response.getStatusCode())) {
 	    	return "redirect:/login/?error";
 	    }

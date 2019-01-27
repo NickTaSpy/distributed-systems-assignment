@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Σύστημα διαχείρισης συγγραμμάτων</title>
+<title>Σύστημα παραλαβής συγγραμμάτων</title>
 </head>
 <body>
 	<form:form action="${pageContext.request.contextPath}/loginForm" method="POST">
