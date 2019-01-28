@@ -1,7 +1,12 @@
 package student.springmvc;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -16,12 +21,16 @@ import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import student.entities.Book;
 import student.security.AuthRequest;
 
 
@@ -40,14 +49,24 @@ public class StudentController {
 		return "redirect:/student";
 	}
 	
-	@RequestMapping("/student")
+	@GetMapping("/student")
 	public String studentPage(HttpServletRequest request, Model model) {
-		ResponseEntity<String> response = AuthRequest.getResponse((String)session().getAttribute("Authorization"), "http://localhost:8080/assignment/student/books", HttpMethod.GET, null, String.class);
-		if (HasError(response.getStatusCode())) {
+		ResponseEntity<Object[]> studentRequests = AuthRequest.getResponse((String)session().getAttribute("Authorization"), "http://localhost:8080/assignment/student/books", HttpMethod.GET, null, Object[].class);
+		ResponseEntity<String[]> courses = AuthRequest.getResponse((String)session().getAttribute("Authorization"), "http://localhost:8080/assignment/student/semesterCourses", HttpMethod.GET, null, String[].class);
+		
+		if (HasError(studentRequests.getStatusCode()) || HasError(courses.getStatusCode())) {
 	    	return "redirect:/login/?error";
 	    }
 		
-	    model.addAttribute("message", response.getBody());
+		List<Book> books = new ArrayList<Book>();
+		for (String course : courses.getBody()) {
+			ResponseEntity<Book[]> courseBooks = AuthRequest.getResponse((String)session().getAttribute("Authorization"), "http://localhost:8080/assignment/student/semesterBooks/{courseName}", HttpMethod.GET, null, Book[].class, course);
+			books.addAll(Arrays.asList(courseBooks.getBody()));
+		}
+		model.addAttribute("books", books);
+		
+	    model.addAttribute("studentReqs", studentRequests.getBody());
+	    model.addAttribute("courses", courses.getBody());
 		return "student";
 	}
 	

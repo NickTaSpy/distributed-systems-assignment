@@ -23,6 +23,9 @@ public class Student extends User {
 	@Column(name = "department")
 	private Department department;
 	
+	@Column(name = "semester")
+	private int semester;
+	
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="studentuserid")
 	private Set<StudentBooks> studentBooks;
@@ -31,6 +34,14 @@ public class Student extends User {
 		
 	}
 	
+	public int getSemester() {
+		return semester;
+	}
+
+	public void setSemester(int semester) {
+		this.semester = semester;
+	}
+
 	public Department getDepartment() {
 		return department;
 	}

@@ -7,10 +7,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Σύστημα παραλαβής συγγραμμάτων</title>
+<link href="<c:url value="/resources/theme/style.css" />" rel="stylesheet">
 </head>
 <body>
-<h3>Παραληφθέντα συγγράμματα</h3>
-<table id="booksTable">
+<h3>Δηλωμένα συγγράμματα</h3>
+<table border="1" id="booksTable">
 	<tr>
 		<th>Μάθημα</th>
 		<th>Τίτλος</th>
@@ -19,16 +20,44 @@
 		<th>Εξάμηνο</th>
 		<th>Παραλήφθηκε</th>
 	</tr>
-	<c:forEach var="book" items="${books}">
+	<c:forEach var="req" items="${studentReqs}">
 		<tr>
-			<td>${course.name}</td>
-			<td>${book.title}</td>
-			<td>${book.author}</td>
-			<td>${book.title}</td>
-			<td>${book.title}</td>
-			<td>${book.title}</td>
+			<td>${req.courseName}</td>
+			<td>${req.title}</td>
+			<td>${req.author}</td>
+			<td>${req.publisher}</td>
+			<td>${req.semester}</td>
+			<td>${req.received}</td>
 		</tr>
 	</c:forEach>
-</table>
+</table><br>
+<h3>Δήλωση συγγραμμάτων για κάθε μάθημα</h3>
+<form>
+	<table border="1">
+		<tr>
+			<th>Μαθήμα</th>
+			<th>Τίτλος</th>
+			<th>Συγγραφέας</th>
+			<th></th>
+		</tr>
+		<c:set var="start" value="0" />
+		<c:forEach var="courseName" items="${courses}">
+			<tr>
+				<td>${courseName}</td>
+			</tr>
+			
+			<c:set var="book" value="${books}" />
+			<c:forEach begin="${start}" end="${start + 1}" var="i">
+				<tr>
+					<td></td>
+					<td>${book[i].name}</td>
+					<td>${book[i].author}</td>
+					<td><input type="checkbox"/></td>
+				</tr>
+			</c:forEach>
+			<c:set var="start" value="${start + 2}" />
+		</c:forEach>
+	</table>
+</form>
 </body>
 </html>

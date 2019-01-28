@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import assignment.entities.Book;
+import assignment.entities.Course;
 import assignment.entities.Department;
 import assignment.entities.Professor;
 import assignment.entities.ProfessorBooks;
@@ -169,7 +170,7 @@ public class ServicesDAOImpl implements ServicesDAO {
     @Transactional
     public void updateProfessorBooks(String courseName, int bookId1, int bookId2) {
     	Session session = sessionFactory.getCurrentSession();
-    	session.createQuery("delete from ProfessorBooks PB where PB.courseName='" + courseName + "'").executeUpdate();
+    	session.createQuery("delete from ProfessorBooks PB where PB.course='" + courseName + "'").executeUpdate();
     	ProfessorBooks professorBooks = new ProfessorBooks();
     	professorBooks.setBook(bookId1);
     	professorBooks.setCourse(courseName);
@@ -278,5 +279,19 @@ public class ServicesDAOImpl implements ServicesDAO {
 	    	case admin:
 	    		break;
     	}
+    }
+    
+    @Override
+    @Transactional
+    public List<Course> getSemesterCourses(int semester) {
+    	Session session = sessionFactory.getCurrentSession();
+    	return session.createQuery("from Course C where C.semester='" + semester + "'", Course.class).getResultList();
+    }
+    
+    @Override
+    @Transactional
+    public List<ProfessorBooks> getProfessorBooks(String course) {
+    	Session session = sessionFactory.getCurrentSession();
+    	return session.createQuery("from ProfessorBooks PB where PB.course='" + course + "'", ProfessorBooks.class).getResultList();
     }
 }

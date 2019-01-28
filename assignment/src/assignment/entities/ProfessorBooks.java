@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,9 +26,22 @@ public class ProfessorBooks {
 	@Column(name = "book")
 	private int book;
 	
+	@OneToOne
+	@JoinColumn(name = "book", referencedColumnName = "id", insertable = false, updatable = false)
+	private Book bookDetails;
+	
 	public ProfessorBooks() {
 		
 	}
+	
+	public Book getBookDetails() {
+		return bookDetails;
+	}
+	
+	public void setBookDetails(Book bookDetails) {
+		this.bookDetails = bookDetails;
+	}
+
 	public int getId() {
 		return id;
 	}

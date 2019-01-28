@@ -2,8 +2,10 @@ package assignment.dao;
 
 import java.util.List;
 
+import assignment.entities.Course;
 import assignment.entities.Department;
 import assignment.entities.Professor;
+import assignment.entities.ProfessorBooks;
 import assignment.entities.Publisher;
 import assignment.entities.Role;
 import assignment.entities.Service;
@@ -34,4 +36,6 @@ public interface ServicesDAO {
 	public void updateSecretariat(int id, Department department);
 	public void addUser(User user, String roleParam);
 	public Student getStudent();
+	public List<Course> getSemesterCourses(int semester);
+	public List<ProfessorBooks> getProfessorBooks(String course);
 }
