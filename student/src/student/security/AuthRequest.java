@@ -22,7 +22,6 @@ public final class AuthRequest {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", auth);
 		restTemplate.setErrorHandler(new MyResponseErrorHandler());
-		
 		HttpEntity<String> request2 = new HttpEntity<String>(headers);
 	    ResponseEntity<T> response = restTemplate.exchange(url, method, request2, responseType, uriVariables);
 	    return response;

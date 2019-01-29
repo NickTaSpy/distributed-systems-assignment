@@ -19,10 +19,6 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(name="userid", referencedColumnName="id")
 public class Professor extends User {
 	
-	@Enumerated(EnumType.STRING)
-	@Column(name = "department")
-	private Department department;
-	
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name="professoruserid")
 	private List<ProfessorBooks> professorBooks;
@@ -33,14 +29,6 @@ public class Professor extends User {
 	
 	public Professor() {
 		
-	}
-
-	public Department getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(Department department) {
-		this.department = department;
 	}
 
 	public List<ProfessorBooks> getProfessorBooks() {

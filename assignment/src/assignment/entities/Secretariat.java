@@ -15,19 +15,8 @@ import org.hibernate.annotations.PolymorphismType;
 @Polymorphism(type = PolymorphismType.EXPLICIT)
 @PrimaryKeyJoinColumn(name="userid", referencedColumnName="id")
 public class Secretariat extends User{
-	@Enumerated(EnumType.STRING)
-	@Column(name = "department")
-	private Department department;
 
 	public Secretariat() {
 		
-	}
-	
-	public Department getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(Department department) {
-		this.department = department;
 	}
 }

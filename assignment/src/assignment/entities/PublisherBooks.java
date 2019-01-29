@@ -3,6 +3,8 @@ package assignment.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,6 +15,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "publisher_books")
 public class PublisherBooks {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "id")
+	private int id;
 	
 	@Column(name = "publisheruserid")
 	private int publisherUserId;
@@ -21,12 +27,10 @@ public class PublisherBooks {
 	@JoinColumn(name="publisheruserid", referencedColumnName="userid", insertable=false, updatable=false)
 	private Publisher publisher;
 	
-	@OneToOne(optional=true, fetch=FetchType.LAZY)
-	@JoinColumn(name="book", referencedColumnName="id")
+	@OneToOne(optional=true, fetch=FetchType.EAGER)
+	@JoinColumn(name="book", referencedColumnName="id", insertable=false, updatable=false)
 	private Book book;
 	
-	@Id
-	@PrimaryKeyJoinColumn
 	@Column(name="book")
 	private int bookId;
 	
@@ -35,6 +39,14 @@ public class PublisherBooks {
 	
 	public PublisherBooks() {
 		
+	}
+
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Publisher getPublisher() {

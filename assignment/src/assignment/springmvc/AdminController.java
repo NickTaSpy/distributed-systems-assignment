@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import assignment.dao.ServicesDAO;
-import assignment.entities.Department;
 import assignment.entities.Professor;
 import assignment.entities.Publisher;
 import assignment.entities.Role;
@@ -42,7 +41,9 @@ public class AdminController {
 	    		user = new Secretariat();
 	    		break;
 	    	case student:
-	    		user = new Student();
+	    		Student student = new Student();
+	    		student.setSemester(1);
+	    		user = student;
 	    		break;
 	    	case publisher:
 	    		user = new Publisher();
@@ -53,9 +54,10 @@ public class AdminController {
 		user.setFirstName(request.getParameter("firstName"));
 		user.setLastName(request.getParameter("lastName"));
 		user.setEmail(request.getParameter("email"));
-		user.setPassword(new BCryptPasswordEncoder().encode(request.getParameter("password")));
+		user.setPassword(new BCryptPasswordEncoder(4).encode(request.getParameter("password")));
 		user.setPhone(request.getParameter("phone"));
 		user.setRole(role);
+		user.setEnabled(true);
 		servicesDAO.addUser(user, request.getParameter("roleColumn"));
 		return "redirect:/admin";
 	}
@@ -89,21 +91,8 @@ public class AdminController {
 		
 		servicesDAO.updateUser(id, request.getParameter("firstName"), request.getParameter("lastName"), request.getParameter("email"), request.getParameter("phone"));
 		
-		switch (servicesDAO.findUserRole(id)) {
-		case admin:
-			return "redirect:/admin";
-		case professor:
-			servicesDAO.updateProfessor(id, Department.valueOf(request.getParameter("department")));
-			break;
-		case publisher:
+		if (servicesDAO.findUserRole(id) == Role.publisher) {
 			servicesDAO.updatePublisher(id, request.getParameter("publisherName"));
-			break;
-		case secretariat:
-			servicesDAO.updateSecretariat(id, Department.valueOf(request.getParameter("department")));
-			break;
-		case student:
-			servicesDAO.updateStudent(id, Department.valueOf(request.getParameter("department")));
-			break;
 		}
 		return "redirect:/admin";
 	}

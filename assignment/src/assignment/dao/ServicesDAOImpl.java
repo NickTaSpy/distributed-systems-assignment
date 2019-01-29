@@ -1,5 +1,6 @@
 package assignment.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Repository;
 
 import assignment.entities.Book;
 import assignment.entities.Course;
-import assignment.entities.Department;
 import assignment.entities.Professor;
 import assignment.entities.ProfessorBooks;
 import assignment.entities.Publisher;
@@ -24,6 +24,7 @@ import assignment.entities.Role;
 import assignment.entities.Secretariat;
 import assignment.entities.Service;
 import assignment.entities.Student;
+import assignment.entities.StudentBooks;
 import assignment.entities.User;
 
 @Repository
@@ -224,30 +225,9 @@ public class ServicesDAOImpl implements ServicesDAO {
     
     @Override
     @Transactional
-    public void updateProfessor(int id, Department department) {
-    	Session session = sessionFactory.getCurrentSession();
-    	session.createQuery("update Professor P set P.department='" + department + "' where P.id='" + id + "'").executeUpdate();
-    }
-    
-    @Override
-    @Transactional
     public void updatePublisher(int id, String publisherName) {
     	Session session = sessionFactory.getCurrentSession();
     	session.createQuery("update Publisher P set P.publisherName='" + publisherName + "' where P.id='" + id + "'").executeUpdate();
-    }
-    
-    @Override
-    @Transactional
-    public void updateStudent(int id, Department department) {
-    	Session session = sessionFactory.getCurrentSession();
-    	session.createQuery("update Student S set S.department='" + department + "' where S.id='" + id + "'").executeUpdate();
-    }
-    
-    @Override
-    @Transactional
-    public void updateSecretariat(int id, Department department) {
-    	Session session = sessionFactory.getCurrentSession();
-    	session.createQuery("update Secretariat S set S.department='" + department + "' where S.id='" + id + "'").executeUpdate();
     }
     
     @Override
@@ -258,17 +238,14 @@ public class ServicesDAOImpl implements ServicesDAO {
     	switch (user.getRole()) {
 	    	case professor:
 	    		Professor professor = (Professor)user;
-	    		professor.setDepartment(Department.valueOf(roleParam));
 	    		session.save(professor);
 	    		break;
 	    	case secretariat:
 	    		Secretariat secretariat = (Secretariat)user;
-	    		secretariat.setDepartment(Department.valueOf(roleParam));
 	    		session.save(secretariat);
 	    		break;
 	    	case student:
 	    		Student student = (Student)user;
-	    		student.setDepartment(Department.valueOf(roleParam));
 	    		session.save(student);
 	    		break;
 	    	case publisher:
@@ -293,5 +270,68 @@ public class ServicesDAOImpl implements ServicesDAO {
     public List<ProfessorBooks> getProfessorBooks(String course) {
     	Session session = sessionFactory.getCurrentSession();
     	return session.createQuery("from ProfessorBooks PB where PB.course='" + course + "'", ProfessorBooks.class).getResultList();
+    }
+    
+    @Override
+    @Transactional
+    public List<Course> findCourse(String course) {
+    	Session session = sessionFactory.getCurrentSession();
+    	return session.createQuery("from Course C where C.name='" + course + "'", Course.class).getResultList();
+    }
+    
+    @Override
+    @Transactional
+    public List<Book> findBook(String book) {
+    	Session session = sessionFactory.getCurrentSession();
+    	return session.createQuery("from Book B where B.name='" + book + "'", Book.class).getResultList();
+    }
+    
+    @Override
+    @Transactional
+    public void setStudentBooks(String courseName, String bookName) {
+    	Session session = sessionFactory.getCurrentSession();
+    	Student student = getStudent();
+    	Course course = findCourse(courseName).get(0);
+    	Book book = findBook(bookName).get(0);
+    	session.createQuery("delete from StudentBooks SB where SB.studentUserId='" + student.getId() + "' and SB.courseId='" + course.getId() + "'").executeUpdate();
+    	StudentBooks studentBook = new StudentBooks();
+    	studentBook.setStudentUserId(student.getId());
+    	studentBook.setCourseId(course.getId());
+    	studentBook.setBookSelected(book.getId());
+    	studentBook.setBookReceived(false);
+    	session.save(studentBook);
+    }
+    
+    @Override
+    @Transactional
+    public PublisherBooks getPublisherBook(int bookId) {
+    	Session session = sessionFactory.getCurrentSession();
+    	List<PublisherBooks> publisherBook = session.createQuery("from PublisherBooks PB where PB.bookId='" + bookId + "'").getResultList();
+    	if (publisherBook.size() == 0) {
+    		return null;
+    	}else {
+    		return publisherBook.get(0);
+    	}
+    }
+    
+    @Override
+    @Transactional
+    public List<User> findStudentsWithNoSelectedBooks() {
+    	Session session = sessionFactory.getCurrentSession();
+    	List<User> resultUsers = new ArrayList<User>();
+    	List<Student> students = session.createQuery("from Student", Student.class).getResultList();
+    	for (Student student : students) {
+    		boolean hasSelectedBooks = false;
+    		for (StudentBooks studentBook : student.getStudentBooks()) {
+    			if (student.getSemester() == studentBook.getCourse().getSemester()) {
+    				hasSelectedBooks = true;
+    				break;
+    			}
+    		}
+    		if (!hasSelectedBooks) {
+    			resultUsers.add((User)student);
+    		}
+    	}
+    	return resultUsers;
     }
 }

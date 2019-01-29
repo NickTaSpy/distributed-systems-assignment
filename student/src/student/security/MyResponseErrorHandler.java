@@ -14,7 +14,6 @@ public class MyResponseErrorHandler implements ResponseErrorHandler {
 
     @Override
     public void handleError(ClientHttpResponse clienthttpresponse) throws IOException {
-    	System.out.println(clienthttpresponse.getStatusText());
         if (clienthttpresponse.getStatusCode() == HttpStatus.FORBIDDEN) {
             
         }
@@ -24,7 +23,7 @@ public class MyResponseErrorHandler implements ResponseErrorHandler {
     public boolean hasError(ClientHttpResponse clienthttpresponse) throws IOException {
 
         if (clienthttpresponse.getStatusCode() != HttpStatus.OK) {
-        	
+
             if (clienthttpresponse.getStatusCode() == HttpStatus.FORBIDDEN) {
                 
                 return true;

@@ -6,7 +6,9 @@ import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -68,6 +70,19 @@ public class StudentController {
 	    model.addAttribute("studentReqs", studentRequests.getBody());
 	    model.addAttribute("courses", courses.getBody());
 		return "student";
+	}
+	
+	@GetMapping("/student/submitBooks")
+	public String submitBooks(HttpServletRequest request, Model model) {
+		Enumeration<String> names = request.getParameterNames();
+		while (names.hasMoreElements()) {
+			String name = names.nextElement();
+			ResponseEntity<String> reply = AuthRequest.getResponse((String)session().getAttribute("Authorization"), "http://localhost:8080/assignment/student/selectBook/{courseName}/{bookName}", HttpMethod.PUT, null, String.class, name, request.getParameter(name));
+			if (HasError(reply.getStatusCode())) {
+		    	return "redirect:/login/?error";
+		    }
+		}
+		return "redirect:/student";
 	}
 	
 	public static HttpSession session() {

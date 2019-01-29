@@ -2,6 +2,9 @@ package assignment.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -12,6 +15,7 @@ import javax.persistence.Table;
 @Table(name = "student_books")
 public class StudentBooks {
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 	
@@ -35,10 +39,6 @@ public class StudentBooks {
 	@JoinColumn(name="courseid", referencedColumnName="id", insertable=false, updatable=false)
 	private Course course;
 	
-	@OneToOne
-	@JoinColumn(name="bookselected", referencedColumnName="book", insertable=false, updatable=false)
-	private PublisherBooks publisherBook;
-	
 	public StudentBooks() {
 		
 	}
@@ -49,14 +49,6 @@ public class StudentBooks {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public PublisherBooks getPublisherBook() {
-		return publisherBook;
-	}
-
-	public void setPublisherBook(PublisherBooks publisherBook) {
-		this.publisherBook = publisherBook;
 	}
 
 	public Course getCourse() {
@@ -91,11 +83,11 @@ public class StudentBooks {
 		this.student = student;
 	}
 
-	public int getBookSelected() {
+	public Integer getBookSelected() {
 		return bookSelected;
 	}
 
-	public void setBookSelected(int bookSelected) {
+	public void setBookSelected(Integer bookSelected) {
 		this.bookSelected = bookSelected;
 	}
 

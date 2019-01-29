@@ -1,6 +1,7 @@
 package assignment.entities;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -24,7 +25,7 @@ public class Publisher extends User{
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="publisheruserid")
-	private List<PublisherBooks> publisherBooks;
+	private Set<PublisherBooks> publisherBooks;
 
 	public Publisher() {
 		
@@ -46,11 +47,11 @@ public class Publisher extends User{
 		this.publisherName = publisherName;
 	}
 
-	public List<PublisherBooks> getPublisherBooks() {
+	public Set<PublisherBooks> getPublisherBooks() {
 		return publisherBooks;
 	}
 
-	public void setPublisherBooks(List<PublisherBooks> publisherBooks) {
+	public void setPublisherBooks(Set<PublisherBooks> publisherBooks) {
 		this.publisherBooks = publisherBooks;
 	}
 	

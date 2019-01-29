@@ -11,12 +11,13 @@
 		function onRoleChange() {
 			var roleSelection = document.getElementById("roleSelection");
 			var role = roleSelection.options[roleSelection.selectedIndex].value;
-			console.log("test");
+			var publisherNameInput = document.getElementById("publisherNameInput");
 			if (role == 1){
 				document.getElementById("roleColumn").innerHTML = "Όνομα Εκδότη";
-				console.log("123");
+				publisherNameInput.hidden = false;
 			}else{
-				document.getElementById("roleColumn").innerHTML = "Τμήμα";
+				document.getElementById("roleColumn").innerHTML = "";
+				publisherNameInput.hidden = true;
 			}
 		}
 	</script>
@@ -50,21 +51,12 @@
 				<option value="3">Φοιτητής</option>
 			</select>
 		</td>
-		<td><input name="roleColumn" type="text"/></td>
+		<td><input id="publisherNameInput" name="roleColumn" type="text" hidden/></td>
 		<td><button type="submit">ΠΡΟΣΘΗΚΗ</button></td>
 	</tr>
 </table><br>
 </form>
 <script type="text/javascript">onRoleChange();</script>
-	<table align="right">
-		<tr>
-			<th>Τμήματα</th>
-		</tr>
-		<tr><td>πληροφορική_και_τηλεματική</td></tr>
-		<tr><td>οικιακής_οικονομίας</td></tr>
-		<tr><td>γεωγραφίας</td></tr>
-		<tr><td>διαιτολογίας</td></tr>
-	</table>
 <h3>Χρήστες Συστήματος</h3>
 <table id="userTable">
 	<tr>
@@ -90,7 +82,6 @@
 		</tr>
 	</c:forEach>
 </table><br>
-<c:set var = "showDepartments" value = "false"/>
 <h3>Ενημέρωση Στοιχείων</h3>
 <form action="${pageContext.request.contextPath}/admin/update/${selectedUser.id}/finalUpdate/" method="GET">
 	<table id="userTable2">
@@ -101,17 +92,8 @@
 			<th>Email</th>
 			<th>Τηλέφωνο</th>
 			<c:choose>
-			    <c:when test="${selectedUser.role=='professor'}">
-			        <th>Τμήμα</th>
-			    </c:when>
 			    <c:when test="${selectedUser.role=='publisher'}">
 					<th>Όνομα Εκδότη</th>
-			    </c:when>
-	   		    <c:when test="${selectedUser.role=='secretariat'}">
-					<th>Τμήμα</th>
-			    </c:when>
-	    		<c:when test="${selectedUser.role=='student'}">
-					<th>Τμήμα</th>
 			    </c:when>
 			</c:choose>
 		</tr>
@@ -122,20 +104,8 @@
 			<td><input name="email" type="text" value="${selectedUser.email}"/></td>
 			<td><input name="phone" type="text" value="${selectedUser.phone}"/></td>
 			<c:choose>
-			    <c:when test="${selectedUser.role=='professor'}">
-			    	<td><input name="department" type="text" value="${specialUser.department}"/></td>
-			    	<c:set var = "showDepartments" value = "true"/>
-			    </c:when>
 			    <c:when test="${selectedUser.role=='publisher'}">
 					<td><input name="publisherName" type="text" value="${specialUser.publisherName}"/></td>
-			    </c:when>
-	   		    <c:when test="${selectedUser.role=='secretariat'}">
-					<td><input name="department" type="text" value="${specialUser.department}"/></td>
-					<c:set var = "showDepartments" value = "true"/>
-			    </c:when>
-	    		<c:when test="${selectedUser.role=='student'}">
-					<td><input name="department" type="text" value="${specialUser.department}"/></td>
-					<c:set var = "showDepartments" value = "true"/>
 			    </c:when>
 			</c:choose>
 		</tr>

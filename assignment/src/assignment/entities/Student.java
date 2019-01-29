@@ -19,10 +19,6 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(name="userid", referencedColumnName="id")
 public class Student extends User {
 	
-	@Enumerated(EnumType.STRING)
-	@Column(name = "department")
-	private Department department;
-	
 	@Column(name = "semester")
 	private int semester;
 	
@@ -40,14 +36,6 @@ public class Student extends User {
 
 	public void setSemester(int semester) {
 		this.semester = semester;
-	}
-
-	public Department getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(Department department) {
-		this.department = department;
 	}
 
 	public Set<StudentBooks> getStudentBooks() {

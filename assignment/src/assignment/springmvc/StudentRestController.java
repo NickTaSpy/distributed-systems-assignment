@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,11 +34,16 @@ public class StudentRestController {
     	
     	for (StudentBooks sb : student.getStudentBooks()) {
     		Course course = sb.getCourse();
-    		PublisherBooks pb = sb.getPublisherBook();
+    		
+    		if (sb.getBookSelected() == null) {
+    			continue;
+    		}
+    		
+    		PublisherBooks pb = servicesDAO.getPublisherBook(sb.getBookSelected());
     		if (pb != null) {
     			studentReqs.add(new StudentRequest(course.getName(), pb.getBook().getName(), 
     					pb.getBook().getAuthor(), pb.getPublisher().getPublisherName(), 
-    					course.getSemester(), sb.isBookReceived()));
+    					course.getSemester(), sb.isBookReceived(), pb.getPublisher().getDirections()));
     		}
     		
     	}
@@ -62,5 +68,11 @@ public class StudentRestController {
     		books.add(profBook.getBookDetails());
     	}
         return books;
+    }
+    
+    @PutMapping(value = "selectBook/{courseName}/{bookName}")
+    public String selectBook(@PathVariable("courseName") String courseName, @PathVariable("bookName") String bookName) {
+    	servicesDAO.setStudentBooks(courseName, bookName);
+    	return "OK";
     }
 }
