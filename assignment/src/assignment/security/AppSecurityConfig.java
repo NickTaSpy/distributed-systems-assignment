@@ -25,19 +25,15 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	DataSource dataSource;
 	
-	private static String REALM = "MY_TEST_REALM";
+	@Autowired
+    private CustomBasicAuthenticationEntryPoint authenticationEntryPoint;
 	
-	@Bean
-    public CustomBasicAuthenticationEntryPoint getBasicAuthEntryPoint(){
-        return new CustomBasicAuthenticationEntryPoint();
-    }
-	
-	@Bean
+	/*@Bean
 	public HttpFirewall allowUrlEncodedPercentHttpFirewall() {
 	    StrictHttpFirewall firewall = new StrictHttpFirewall();
 	    firewall.setAllowUrlEncodedPercent(true);
 	    return firewall;
-	}
+	}*/
 	
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -59,12 +55,14 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/student/**").hasAuthority("3")
         .anyRequest().authenticated()
         .and()
-        .httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint())
+        .httpBasic().authenticationEntryPoint(authenticationEntryPoint)
         .and()
         .formLogin().loginPage("/")
         .loginProcessingUrl("/loginForm")
         .permitAll()
-        .defaultSuccessUrl("/services", true);
+        .defaultSuccessUrl("/services", true)
+        .and()
+        .logout().permitAll();
     }
     
 

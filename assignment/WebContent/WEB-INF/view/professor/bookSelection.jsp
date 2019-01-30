@@ -10,6 +10,7 @@
 	<link href="<c:url value="/resources/theme/style.css" />" rel="stylesheet">
 </head>
 <body>
+<jsp:include page="/resources/theme/navigationBar.jsp" />
 <h3>Μαθήματα</h3>
 <table id="coursesTable">
 	<tr>

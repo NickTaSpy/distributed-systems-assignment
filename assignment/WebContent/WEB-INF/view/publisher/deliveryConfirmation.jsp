@@ -10,6 +10,7 @@
 	<title>Σύστημα διαχείρισης συγγραμμάτων</title>
 </head>
 <body>
+<jsp:include page="/resources/theme/navigationBar.jsp" />
 <h3>Συγγράμματα</h3>
 <table id="bookTable">
 	<tr>

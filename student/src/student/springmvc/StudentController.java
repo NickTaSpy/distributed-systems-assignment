@@ -51,14 +51,23 @@ public class StudentController {
 		return "redirect:/student";
 	}
 	
+	@RequestMapping("/logout")
+	public String logout(HttpServletRequest request, Model model){
+		session().invalidate();
+		return "redirect:/login";
+	}
+	
 	@GetMapping("/student")
 	public String studentPage(HttpServletRequest request, Model model) {
 		ResponseEntity<Object[]> studentRequests = AuthRequest.getResponse((String)session().getAttribute("Authorization"), "http://localhost:8080/assignment/student/books", HttpMethod.GET, null, Object[].class);
-		ResponseEntity<String[]> courses = AuthRequest.getResponse((String)session().getAttribute("Authorization"), "http://localhost:8080/assignment/student/semesterCourses", HttpMethod.GET, null, String[].class);
-		
-		if (HasError(studentRequests.getStatusCode()) || HasError(courses.getStatusCode())) {
+		if (HasError()) {
 	    	return "redirect:/login/?error";
 	    }
+		
+		ResponseEntity<String[]> courses = AuthRequest.getResponse((String)session().getAttribute("Authorization"), "http://localhost:8080/assignment/student/semesterCourses", HttpMethod.GET, null, String[].class);
+		if (HasError()) {
+			return "redirect:/login/?error";
+		}
 		
 		List<Book> books = new ArrayList<Book>();
 		for (String course : courses.getBody()) {
@@ -78,7 +87,7 @@ public class StudentController {
 		while (names.hasMoreElements()) {
 			String name = names.nextElement();
 			ResponseEntity<String> reply = AuthRequest.getResponse((String)session().getAttribute("Authorization"), "http://localhost:8080/assignment/student/selectBook/{courseName}/{bookName}", HttpMethod.PUT, null, String.class, name, request.getParameter(name));
-			if (HasError(reply.getStatusCode())) {
+			if (HasError()) {
 		    	return "redirect:/login/?error";
 		    }
 		}
@@ -90,7 +99,7 @@ public class StudentController {
 	    return attr.getRequest().getSession(true);
 	}
 	
-	public boolean HasError(HttpStatus status) {
-		return status == HttpStatus.UNAUTHORIZED;
+	public boolean HasError() {
+		return AuthRequest.hasError();
 	}
 }

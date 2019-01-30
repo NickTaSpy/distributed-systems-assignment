@@ -24,7 +24,7 @@
 	<title>Σύστημα διαχείρισης χρηστών</title>
 </head>
 <body>
-
+<jsp:include page="/resources/theme/navigationBar.jsp" />
 <h3>Προσθήκη Χρήστη</h3>
 <form action="${pageContext.request.contextPath}/admin/add/" method="GET">
 <table id="userTable3">

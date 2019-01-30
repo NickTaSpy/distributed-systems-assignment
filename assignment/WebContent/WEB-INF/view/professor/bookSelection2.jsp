@@ -22,6 +22,7 @@
 	</script>
 </head>
 <body>
+<jsp:include page="/resources/theme/navigationBar.jsp" />
 <h3>Δήλωση 2 συγγραμμάτων για το μάθημα: ${courseName}</h3>
 <form action="${pageContext.request.contextPath}/professor/bookSelection/select/${courseName}/books/" method="GET" name="form_name" id="form_name">
 	<table id="booksTable">

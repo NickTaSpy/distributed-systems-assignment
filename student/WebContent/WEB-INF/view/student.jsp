@@ -11,6 +11,7 @@
 <script src="<c:url value="/resources/theme/script.js" />"></script>
 </head>
 <body>
+<jsp:include page="/resources/theme/navigationBar.jsp" />
 <h3>Δηλωμένα συγγράμματα</h3>
 <table border="1" id="booksTable">
 	<tr>
@@ -41,7 +42,7 @@
 			<th>Μαθήμα</th>
 			<th>Τίτλος</th>
 			<th>Συγγραφέας</th>
-			<th></th>
+			<th>Επιλογή</th>
 		</tr>
 		<c:set var="start" value="0" />
 		<c:forEach var="courseName" items="${courses}">
@@ -55,7 +56,7 @@
 					<td></td>
 					<td>${book[i].name}</td>
 					<td>${book[i].author}</td>
-					<td><input id="${courseName}_${i}" name="${courseName}" type="checkbox" value="${book[i].name}"/></td>
+					<td class="checkboxClass"><input id="${courseName}_${i}" name="${courseName}" type="checkbox" value="${book[i].name}"/></td>
 				</tr>
 			</c:forEach>
 			<c:set var="start" value="${start + 2}" />
@@ -64,7 +65,9 @@
 			</script>
 		</c:forEach>
 	</table>
-	<input type="submit" value="ΥΠΟΒΟΛΗ"/>
+	<div class="submitButton">
+		<button type="submit">ΥΠΟΒΟΛΗ</button>
+	</div>
 </form>
 </body>
 </html>

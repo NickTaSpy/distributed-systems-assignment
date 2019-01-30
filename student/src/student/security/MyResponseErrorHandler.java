@@ -9,13 +9,11 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;
 
 public class MyResponseErrorHandler implements ResponseErrorHandler {
-
-    private static final Log logger = LogFactory.getLog(MyResponseErrorHandler.class);
-
+	
     @Override
     public void handleError(ClientHttpResponse clienthttpresponse) throws IOException {
-        if (clienthttpresponse.getStatusCode() == HttpStatus.FORBIDDEN) {
-            
+        if (clienthttpresponse.getStatusCode() == HttpStatus.UNAUTHORIZED || clienthttpresponse.getStatusCode() == HttpStatus.FORBIDDEN) {
+
         }
     }
 
@@ -24,8 +22,7 @@ public class MyResponseErrorHandler implements ResponseErrorHandler {
 
         if (clienthttpresponse.getStatusCode() != HttpStatus.OK) {
 
-            if (clienthttpresponse.getStatusCode() == HttpStatus.FORBIDDEN) {
-                
+            if (clienthttpresponse.getStatusCode() == HttpStatus.UNAUTHORIZED || clienthttpresponse.getStatusCode() == HttpStatus.FORBIDDEN) {
                 return true;
             }
         }
