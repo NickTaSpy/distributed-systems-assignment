@@ -11,7 +11,8 @@
 </head>
 <body>
 <jsp:include page="/resources/theme/navigationBar.jsp" />
-<h3>Συγγράμματα</h3>
+<h3>Συγγράμματα</h3><br>
+<h4>Κάντε κλικ στο κελί "Διαθέσιμα" για επεξεργασία του αριθμού και μετά κλικ στο κουμπί "Αλλαγή"</h4>
 <table id="bookTable">
 	<tr>
 		<th>id</th>
@@ -25,7 +26,7 @@
 			<td>${book.book.name}</td>
 			<td>${book.book.author}</td>
 			<td><form action="${pageContext.request.contextPath}/publisher/manageBook/update/${book.book.id}/booksAvailable/" method="GET">
-			<input name="booksAvailable" type="text" value="${book.booksAvailable}"/>
+			<input name="booksAvailable" type="number" min="0" value="${book.booksAvailable}"/>
 			<input type="submit" value="ΑΛΛΑΓΗ"/>
 			</form></td>
 			<td><form action="${pageContext.request.contextPath}/publisher/manageBook/delete/${book.bookId}" method="GET"><button type="submit">ΔΙΑΓΡΑΦΗ</button></form></td>

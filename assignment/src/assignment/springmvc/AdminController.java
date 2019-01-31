@@ -31,6 +31,9 @@ public class AdminController {
 	
 	@RequestMapping("add")
 	public String addUser(HttpServletRequest request, Model model) {
+		if (servicesDAO.findUser(request.getParameter("email")) != null) {
+			return "redirect:/admin";
+		}
 		Role role = Role.values()[Integer.parseInt(request.getParameter("role"))];
 		User user;
     	switch (role) {

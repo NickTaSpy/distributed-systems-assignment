@@ -61,7 +61,11 @@ public class ServicesDAOImpl implements ServicesDAO {
     public User findUser(String email) {
         Session session = sessionFactory.getCurrentSession();
         Query<User> query = session.createQuery("from User U where U.email='" + email + "'", User.class);
-        return query.getSingleResult();
+        List<User> users = query.getResultList();
+        if (users.size() == 0) {
+        	return null;
+        }
+        return users.get(0);
     }
     
     @Override

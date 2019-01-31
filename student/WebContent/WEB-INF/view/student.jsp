@@ -11,7 +11,7 @@
 <script src="<c:url value="/resources/theme/script.js" />"></script>
 </head>
 <body>
-<jsp:include page="/resources/theme/navigationBar.jsp" />
+<jsp:include page="/resources/theme/navigationBar.jsp" /><br>
 <h3>Δηλωμένα συγγράμματα</h3>
 <table border="1" id="booksTable">
 	<tr>
@@ -30,12 +30,19 @@
 			<td>${req.author}</td>
 			<td>${req.publisher}</td>
 			<td>${req.semester}</td>
-			<td>${req.received}</td>
+			<td><c:choose>
+				    <c:when test="${req.received=='true'}">
+				        Ναι
+				    </c:when>    
+				    <c:otherwise>
+				        Όχι
+				    </c:otherwise>
+				</c:choose></td>
 			<td>${req.directions}</td>
 		</tr>
 	</c:forEach>
 </table><br>
-<h3>Δήλωση συγγραμμάτων για κάθε μάθημα</h3>
+<h3>Δήλωση συγγραμμάτων για το τρέχον εξάμηνο</h3>
 <form name="books" action="${pageContext.request.contextPath}/student/submitBooks" method="GET">
 	<table border="1">
 		<tr>
